@@ -45,7 +45,7 @@ services:
     image: postgres:13.7-alpine
     container_name: ewm-db
     ports:
-      - "6551:5432"
+      - "6551:5442"
     environment:
       - POSTGRES_DB=ewm-db
       - POSTGRES_USER=ewm_user
