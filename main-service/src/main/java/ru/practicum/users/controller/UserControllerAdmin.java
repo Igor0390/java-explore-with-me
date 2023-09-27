@@ -31,11 +31,10 @@ public class UserControllerAdmin {
     }
 
     @GetMapping("/admin/users")
-    @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getAllUsersByIds(
             @RequestParam(required = false) List<Long> ids,
-            @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-            @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
+            @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+            @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("GET at '/admin/users' получить все users с параметрами: ids={}, from={}, size={}",
                 ids, from, size);
         return userService.getUsersByIds(ids, from, size);

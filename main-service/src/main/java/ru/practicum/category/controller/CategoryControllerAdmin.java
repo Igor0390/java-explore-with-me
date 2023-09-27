@@ -1,9 +1,8 @@
 package ru.practicum.category.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.category.service.CategoryService;
 import ru.practicum.category.model.dto.CategoryDto;
@@ -12,10 +11,9 @@ import ru.practicum.category.model.dto.NewCategoryDto;
 import javax.validation.Valid;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CategoryControllerAdmin {
 
     private final CategoryService categoryService;
@@ -35,7 +33,6 @@ public class CategoryControllerAdmin {
     }
 
     @PatchMapping("/admin/categories/{catId}")
-    @ResponseStatus(HttpStatus.OK)
     public CategoryDto updateCategory(@PathVariable Long catId,
                                       @Valid @RequestBody CategoryDto categoryDto) {
         log.info("PATCH '/admin/categories/{}' обновляет категорию с body={}", catId, categoryDto.toString());

@@ -20,7 +20,6 @@ public class ParticipationRequestControllerPrivate {
     private final ParticipationRequestService requestService;
 
     @GetMapping("/users/{userId}/requests")
-    @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getAll(@PathVariable Long userId) {
         log.info("GET '/users/{userId}/requests' получаем все requests по user с id={}", userId);
         return requestService.getAllRequestsByUserId(userId);
@@ -29,13 +28,12 @@ public class ParticipationRequestControllerPrivate {
     @PostMapping("/users/{userId}/requests")
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto create(@PathVariable Long userId,
-                                          @Valid @Positive @RequestParam Long eventId) {
+                                          @Positive @RequestParam Long eventId) {
         log.info("POST '/users/{}/requests' создаем request из user с id={} и event с id={}", userId, userId, eventId);
         return requestService.createRequest(userId, eventId);
     }
 
     @PatchMapping("/users/{userId}/requests/{requestId}/cancel")
-    @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto cancel(@PathVariable Long userId,
                                           @PathVariable Long requestId) {
         log.info("PATCH '/users/{}/requests/{}/cancel' отмена request с id={} по user с id={}", userId, requestId, requestId, userId);

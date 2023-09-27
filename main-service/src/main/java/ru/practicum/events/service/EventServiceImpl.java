@@ -374,7 +374,7 @@ public class EventServiceImpl implements EventService {
         Pageable pageable = OffsetPageRequest.of(from, size);
         checkStartIsBeforeEnd(rangeStart, rangeEnd);
 
-        log.info("Получаем ивент по text={}", text);
+        log.info("Getting events by text={}", text);
         List<Event> events = eventRepository.findPublishedEventsByUser(
                 text,
                 categories,
@@ -412,7 +412,7 @@ public class EventServiceImpl implements EventService {
                     eventShortDtoList.sort(Comparator.comparing(EventShortDto::getViews));
                     break;
                 default:
-                    throw new ValidationRequestException("Параметры сортировки не валидные");
+                    throw new ValidationRequestException("Parameter sort is not valid");
             }
         }
 
@@ -423,7 +423,7 @@ public class EventServiceImpl implements EventService {
     public List<ParticipationRequestDto> getRequests(Long userId, Long eventId) {
         userService.userExists(userId);
 
-        log.info("Получаем requests по user с id={} и event с id={}", userId, eventId);
+        log.info("Getting requests by user with id={} and event with id={}", userId, eventId);
         List<Event> events = eventRepository.findByIdAndInitiatorId(eventId, userId);
         List<ParticipationRequest> requests = participationRequestRepository.findByEventIn(events);
 
@@ -432,7 +432,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEventById(Long eventId, HttpServletRequest request) {
-        log.info("Получаем ивент с id={}", eventId);
+        log.info("Getting event with id={}", eventId);
         statsClient.saveEndpoint("ewm-main-service", request.getRequestURI(), request.getRemoteAddr());
         Event event = getEventModelById(eventId);
 
@@ -503,7 +503,7 @@ public class EventServiceImpl implements EventService {
 
     private void checkStartIsBeforeEnd(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
         if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
-            throw new ValidationRequestException("Время началось позже чем время окончания");
+            throw new ValidationRequestException("Start date later than end date");
         }
     }
 
@@ -513,7 +513,7 @@ public class EventServiceImpl implements EventService {
                 try {
                     EventState.valueOf(state);
                 } catch (IllegalArgumentException e) {
-                    throw new ValidationRequestException("Неверный states!");
+                    throw new ValidationRequestException("Wrong states!");
                 }
             }
         }

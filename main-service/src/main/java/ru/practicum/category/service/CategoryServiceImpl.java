@@ -38,7 +38,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
         log.info("Получаем все категории: from={}, size={}", from, size);

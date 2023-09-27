@@ -32,7 +32,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("Incorrectly made request.")
+                .reason("IНеправильно составлен запрос")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -76,7 +76,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("Incorrectly made request.")
+                .reason("Неправильно составлен запрос")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -106,7 +106,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(NOT_FOUND)
-                .reason("The required object was not found.")
+                .reason("Нужный объект не найден")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -122,7 +122,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(CONFLICT)
-                .reason("For the requested operation the conditions are not met.")
+                .reason("Условия для запрошенной операции не выполнены")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -144,15 +144,16 @@ public class ErrorHandler {
     }
 
     // 500
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({Throwable.class})
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ApiError handleException(final Exception e) {
+    public ApiError handleException(final Throwable e) {
+        log.debug(e.toString());
         return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(INTERNAL_SERVER_ERROR)
-                .reason("The server encountered an unexpected condition that prevented it from fulfilling the request.")
+                .reason("На сервере возникла непредвиденная ситуация, которая не позволила ему выполнить запрос")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
