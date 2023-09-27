@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.enums.EventStateActionUser;
 import ru.practicum.location.model.dto.LocationDto;
-import ru.practicum.location.model.entity.Location;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.PositiveOrZero;
