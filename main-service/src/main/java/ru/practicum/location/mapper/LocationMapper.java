@@ -14,7 +14,7 @@ public class LocationMapper {
                 .build();
     }
 
-    public Location toLocation(LocationDto locationDto){
+    public Location toLocation(LocationDto locationDto) {
         return Location.builder()
                 .lat(locationDto.getLat())
                 .lon(locationDto.getLon())
