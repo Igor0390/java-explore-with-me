@@ -6,16 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.category.mapper.CategoryMapper;
-import ru.practicum.category.model.entity.Category;
 import ru.practicum.category.model.dto.CategoryDto;
 import ru.practicum.category.model.dto.NewCategoryDto;
+import ru.practicum.category.model.entity.Category;
 import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.events.model.entity.Event;
 import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exceptions.ConflictException;
 import ru.practicum.exceptions.NotFoundException;
 import ru.practicum.util.pageable.OffsetPageRequest;
-import ru.practicum.util.validation.SizeValidator;
 
 import java.util.List;
 

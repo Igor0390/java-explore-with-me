@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.requests.model.ParticipationRequestDto;
 import ru.practicum.requests.service.ParticipationRequestService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 

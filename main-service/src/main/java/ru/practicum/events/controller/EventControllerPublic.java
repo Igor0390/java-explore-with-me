@@ -3,12 +3,11 @@ package ru.practicum.events.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.enums.EventSortOptions;
 import ru.practicum.events.model.dto.EventFullDto;
-import ru.practicum.events.service.EventService;
 import ru.practicum.events.model.dto.EventShortDto;
+import ru.practicum.events.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
