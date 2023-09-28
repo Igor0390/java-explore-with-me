@@ -19,7 +19,7 @@ import java.util.List;
 public class EventControllerAdmin {
 
     private final EventService eventService;
-    private final ConstantPattern constantPattern;
+    private static ConstantPattern constantPattern;
 
     @GetMapping("/admin/events")
     public List<EventFullDto> getEventsByUserIds(
