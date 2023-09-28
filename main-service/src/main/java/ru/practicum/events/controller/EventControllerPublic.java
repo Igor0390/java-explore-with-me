@@ -20,14 +20,13 @@ import java.util.List;
 public class EventControllerPublic {
 
     private final EventService eventService;
-    private final ConstantPattern constantPattern;
 
     @GetMapping("/events")
     public List<EventShortDto> getAllEventsByParams(@RequestParam(required = false) String text,
                                                     @RequestParam(required = false) List<Long> categories,
                                                     @RequestParam(required = false) Boolean paid,
-                                                    @RequestParam(required = false) @DateTimeFormat(pattern = constantPattern.PATTERN) LocalDateTime rangeStart,
-                                                    @RequestParam(required = false) @DateTimeFormat(pattern = constantPattern.PATTERN) LocalDateTime rangeEnd,
+                                                    @RequestParam(required = false) @DateTimeFormat(pattern = ConstantPattern.PATTERN) LocalDateTime rangeStart,
+                                                    @RequestParam(required = false) @DateTimeFormat(pattern = ConstantPattern.PATTERN) LocalDateTime rangeEnd,
                                                     @RequestParam(defaultValue = "false") Boolean onlyAvailable,
                                                     @RequestParam(required = false) EventSortOptions sort,
                                                     @RequestParam(defaultValue = "0") Integer from,
