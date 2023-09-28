@@ -13,7 +13,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping
 @AllArgsConstructor
 public class CompilationControllerAdmin {
 

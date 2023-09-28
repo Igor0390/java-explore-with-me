@@ -17,7 +17,6 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping
 @RequiredArgsConstructor
 public class UserControllerAdmin {
 

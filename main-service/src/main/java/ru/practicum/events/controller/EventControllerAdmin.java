@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.util.constants.ConstantPattern;
 import ru.practicum.events.model.dto.EventFullDto;
 import ru.practicum.events.service.EventService;
 import ru.practicum.events.model.dto.UpdateEventAdminRequest;
@@ -14,19 +15,19 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping
 @AllArgsConstructor
 public class EventControllerAdmin {
 
     private final EventService eventService;
+    private final ConstantPattern constantPattern;
 
     @GetMapping("/admin/events")
     public List<EventFullDto> getEventsByUserIds(
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<String> states,
             @RequestParam(required = false) List<Long> categories,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+            @RequestParam(required = false) @DateTimeFormat(pattern = constantPattern.PATTERN) LocalDateTime rangeStart,
+            @RequestParam(required = false) @DateTimeFormat(pattern = constantPattern.PATTERN) LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") Integer from,
             @RequestParam(defaultValue = "10") Integer size) {
         log.info("GET at '/admin/events' to get all events with params: users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
@@ -36,7 +37,7 @@ public class EventControllerAdmin {
 
     @PatchMapping("/admin/events/{eventId}")
     public EventFullDto updateEvent(@PathVariable Long eventId,
-                               @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
+                                    @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
         log.info("UPDATE at '/admin/events/{}' to update event with id={} with body={}", eventId, eventId, updateEventAdminRequest.toString());
         return eventService.updateEventByAdmin(eventId, updateEventAdminRequest);
     }

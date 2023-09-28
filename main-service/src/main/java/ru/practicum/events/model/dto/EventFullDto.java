@@ -6,6 +6,7 @@ import ru.practicum.category.model.dto.CategoryDto;
 import ru.practicum.enums.EventState;
 import ru.practicum.location.model.dto.LocationDto;
 import ru.practicum.users.model.dto.UserShortDto;
+import ru.practicum.util.constants.ConstantPattern;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -25,12 +26,12 @@ public class EventFullDto {
     private CategoryDto category;
     private Long confirmedRequests;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime createdOn;
     private String description;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime eventDate;
     private Long id;
 
@@ -46,7 +47,7 @@ public class EventFullDto {
     @PositiveOrZero
     private Integer participantLimit = 0;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime publishedOn;
     private Boolean requestModeration = true;
     private EventState state;

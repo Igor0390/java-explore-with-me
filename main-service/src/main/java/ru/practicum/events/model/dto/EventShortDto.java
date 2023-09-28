@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.category.model.dto.CategoryDto;
 import ru.practicum.users.model.dto.UserShortDto;
+import ru.practicum.util.constants.ConstantPattern;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -27,7 +28,7 @@ public class EventShortDto {
     private Long confirmedRequests;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime eventDate;
     private Long id;
 

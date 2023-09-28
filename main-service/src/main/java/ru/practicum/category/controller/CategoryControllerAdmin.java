@@ -12,7 +12,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping
 @RequiredArgsConstructor
 public class CategoryControllerAdmin {
 

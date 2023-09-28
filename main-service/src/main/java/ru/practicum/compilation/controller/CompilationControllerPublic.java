@@ -14,7 +14,6 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping
 @AllArgsConstructor
 public class CompilationControllerPublic {
 

@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
         Event event = EventMapper.toEvent(newEventDto);
 
         if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Дата мероприятия не должна быть раньше, чем через 2 часа от текущего времени.");
         }
 
         Category category = categoryService.getCategoryModelById(newEventDto.getCategory());
@@ -86,12 +86,12 @@ public class EventServiceImpl implements EventService {
         log.info("Updating event with id={} with data={}", eventId, updateEventUserRequest);
 
         if (event.getState() != null && event.getState() != EventState.PENDING && event.getState() != EventState.CANCELED) {
-            throw new ConflictException("Only pending or canceled events can be changed");
+            throw new ConflictException("Изменить можно только ожидающие или отмененные события");
         }
 
         if (updateEventUserRequest.getEventDate() != null
                 && updateEventUserRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Дата мероприятия не должна быть раньше, чем через 2 часа от текущего времени");
         }
 
         if (updateEventUserRequest.getTitle() != null) {
@@ -150,20 +150,20 @@ public class EventServiceImpl implements EventService {
         Event event = getEventModelById(eventId);
 
         if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(1))) {
-            throw new ValidationRequestException("The start date of the edited event must be no earlier than one hour from the date of publication");
+            throw new ValidationRequestException("Дата начала редактируемого мероприятия должна быть не ранее, чем через час с момента публикации.");
         }
 
         if (updateEventAdminRequest.getStateAction() != null) {
             if (updateEventAdminRequest.getStateAction() == EventStateActionAdmin.PUBLISH_EVENT) {
                 if (event.getState() != EventState.PENDING) {
-                    throw new ConflictException("Cannot publish the event because it's not in the right state: " + event.getState());
+                    throw new ConflictException("Невозможно опубликовать мероприятие, поскольку оно находится в неправильном состоянии.: " + event.getState());
                 }
 
                 event.setPublishedOn(LocalDateTime.now());
                 event.setState(EventState.PUBLISHED);
             } else if (updateEventAdminRequest.getStateAction() == EventStateActionAdmin.REJECT_EVENT) {
                 if (event.getState() == EventState.PUBLISHED) {
-                    throw new ConflictException("Event can only be reject if it hasn't been published yet");
+                    throw new ConflictException("Событие можно отклонить, только если оно еще не опубликовано.");
                 } else {
                     event.setState(EventState.CANCELED);
                 }
@@ -172,7 +172,7 @@ public class EventServiceImpl implements EventService {
 
         if (updateEventAdminRequest.getEventDate() != null
                 && updateEventAdminRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Дата мероприятия не должна быть раньше, чем через 2 часа от текущего времени.");
         }
 
         if (updateEventAdminRequest.getAnnotation() != null) {
@@ -235,11 +235,11 @@ public class EventServiceImpl implements EventService {
         if (!requests.stream()
                 .map(ParticipationRequest::getStatus)
                 .allMatch(RequestStatus.PENDING::equals)) {
-            throw new ConflictException("Only requests that are pending can be changed.");
+            throw new ConflictException("Изменить можно только те запросы, которые находятся на рассмотрении.");
         }
 
         if (requests.size() != eventRequestStatusUpdateRequest.getRequestIds().size()) {
-            throw new ConflictException("Some requests not found.");
+            throw new ConflictException("Некоторые запросы не найдены.");
         }
 
         int limitParticipants = event.getParticipantLimit();
@@ -251,7 +251,7 @@ public class EventServiceImpl implements EventService {
         Long countParticipants = participationRequestRepository.countByEventIdAndStatus(event.getId(), RequestStatus.CONFIRMED);
 
         if (countParticipants >= limitParticipants) {
-            throw new ConflictException("The participant limit has been reached.");
+            throw new ConflictException("Достигнут лимит участников.");
         }
 
         if (eventRequestStatusUpdateRequest.getStatus().equals(RequestStatus.REJECTED)) {

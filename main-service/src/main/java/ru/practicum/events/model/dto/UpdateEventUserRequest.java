@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.enums.EventStateActionUser;
 import ru.practicum.location.model.dto.LocationDto;
+import ru.practicum.util.constants.ConstantPattern;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.PositiveOrZero;
@@ -26,7 +27,7 @@ public class UpdateEventUserRequest {
     private String description;
 
     @Future
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime eventDate;
     private LocationDto location;
     private Boolean paid;

@@ -3,6 +3,7 @@ package ru.practicum.requests.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.enums.RequestStatus;
+import ru.practicum.util.constants.ConstantPattern;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ParticipationRequestDto {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = ConstantPattern.PATTERN, shape = JsonFormat.Shape.STRING)
     private LocalDateTime created;
     private Long event;
     private Long id;
