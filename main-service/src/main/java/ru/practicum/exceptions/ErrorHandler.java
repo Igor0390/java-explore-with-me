@@ -32,7 +32,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("IНеправильно составлен запрос")
+                .reason("Неправильно составлен запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -76,7 +76,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("Неправильно составлен запрос")
+                .reason("Неправильно составлен запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -90,7 +90,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("Incorrectly made request.")
+                .reason("Неправильно составлен запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -105,7 +105,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(NOT_FOUND)
-                .reason("Object not found")
+                .reason("Объект не найден")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -120,7 +120,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(NOT_FOUND)
-                .reason("Нужный объект не найден")
+                .reason("Нужный объект не найден.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -136,7 +136,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(CONFLICT)
-                .reason("Условия для запрошенной операции не выполнены")
+                .reason("Для запрошенной операции условия не выполнены.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -158,16 +158,15 @@ public class ErrorHandler {
     }
 
     // 500
-    @ExceptionHandler({Throwable.class})
+    @ExceptionHandler({Exception.class})
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ApiError handleException(final Throwable e) {
-        log.debug(e.toString());
+    public ApiError handleException(final Exception e) {
         return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(INTERNAL_SERVER_ERROR)
-                .reason("На сервере возникла непредвиденная ситуация, которая не позволила ему выполнить запрос")
+                .reason("На сервере возникла непредвиденная ситуация, которая не позволила ему выполнить запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();

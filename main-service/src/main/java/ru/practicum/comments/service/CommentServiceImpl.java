@@ -68,11 +68,11 @@ public class CommentServiceImpl implements CommentService {
         User user = userService.getUserModelById(userId);
 
         if (comment.getAuthor().equals(user)) {
-            throw new ConflictException("Comment author can't like his own comment");
+            throw new ConflictException("Автор комментария не может поставить лайк собственному комментарию");
         }
 
         if (likesRepository.existsByCommentIdAndUserId(commentId, user.getId())) {
-            throw new ConflictException("User already liked this comment");
+            throw new ConflictException("Пользователю уже понравился этот комментарий");
         }
 
         if (dislikeRepository.existsByCommentIdAndUserId(commentId, user.getId())) {
@@ -95,11 +95,11 @@ public class CommentServiceImpl implements CommentService {
         User user = userService.getUserModelById(userId);
 
         if (comment.getAuthor().equals(user)) {
-            throw new ConflictException("Comment author can't dislike his own comment");
+            throw new ConflictException("Автор комментария не может не понравиться собственному комментарию");
         }
 
         if (dislikeRepository.existsByCommentIdAndUserId(commentId, user.getId())) {
-            throw new ConflictException("User already disliked this comment");
+            throw new ConflictException("Пользователю уже не понравился этот комментарий");
         }
 
         if (likesRepository.existsByCommentIdAndUserId(commentId, user.getId())) {
@@ -122,7 +122,7 @@ public class CommentServiceImpl implements CommentService {
         userService.userExists(userId);
         CommentLike like = getLikeByCommentIdAndUserId(commentId, userId);
 
-        log.info("Removing like from comment with id={}", commentId);
+        log.info("Удаление лайка из комментария с помощью id={}", commentId);
         likesRepository.deleteById(like.getId());
     }
 
@@ -133,7 +133,7 @@ public class CommentServiceImpl implements CommentService {
         userService.userExists(userId);
         CommentDislike dislike = getDislikeByCommentIdAndUserId(commentId, userId);
 
-        log.info("Removing dislike from comment with id={}", commentId);
+        log.info("Удаление дизлайка из комментария с помощью id={}", commentId);
         dislikeRepository.deleteById(dislike.getId());
     }
 
@@ -144,10 +144,10 @@ public class CommentServiceImpl implements CommentService {
         User user = userService.getUserModelById(userId);
 
         if (!comment.getAuthor().getId().equals(user.getId())) {
-            throw new ConflictException("Only comment author can edit comment");
+            throw new ConflictException("Редактировать комментарий может только автор комментария");
         }
 
-        log.info("Updating comment with body={}", updateCommentRequest.toString());
+        log.info("Обновление комментария с помощью body={}", updateCommentRequest.toString());
         if (updateCommentRequest.getCommentText() != null && !updateCommentRequest.getCommentText().isBlank()) {
             comment.setCommentText(updateCommentRequest.getCommentText());
         }
@@ -163,7 +163,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto getCommentById(Long commentId) {
         Comment comment = getCommentModelById(commentId);
 
-        log.info("Getting comment with id={}", commentId);
+        log.info("Получение комментария с id={}", commentId);
         CommentDto commentDto = CommentMapper.toCommentDto(comment);
         commentDto.setLikesCount(likesRepository.countAllByCommentId(commentId));
         commentDto.setDislikesCount(dislikeRepository.countAllByCommentId(commentId));
@@ -176,7 +176,7 @@ public class CommentServiceImpl implements CommentService {
         Pageable pageable = OffsetPageRequest.of(from, size);
         eventService.eventExists(eventId);
 
-        log.info("Getting all comments by event with id={}", eventId);
+        log.info("Получение всех комментариев по событию с помощью id={}", eventId);
         List<Comment> comments = commentRepository.findAllByEventId(eventId, pageable);
         List<CommentDto> commentDtos = CommentMapper.toCommentDto(comments);
 
@@ -216,7 +216,7 @@ public class CommentServiceImpl implements CommentService {
     public Long getCommentsCountByEventId(Long eventId) {
         eventService.eventExists(eventId);
 
-        log.info("Getting comments count by event with id={}", eventId);
+        log.info("Получение подсчета комментариев по событию с помощью id={}", eventId);
         return commentRepository.countByEventId(eventId);
     }
 
@@ -227,10 +227,10 @@ public class CommentServiceImpl implements CommentService {
         User user = userService.getUserModelById(userId);
 
         if (!comment.getAuthor().equals(user)) {
-            throw new ValidationRequestException("Only author can delete his own comment.");
+            throw new ValidationRequestException("Только автор может удалить свой комментарий.");
         }
 
-        log.info("Deleting comment with id={} by user with id={}", commentId, userId);
+        log.info("Удаление comment с id={} по user с id={}", commentId, userId);
         likesRepository.deleteAllByCommentId(commentId);
         dislikeRepository.deleteAllByCommentId(commentId);
         commentRepository.deleteById(commentId);
@@ -241,7 +241,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentByAdmin(Long commentId) {
         commentExists(commentId);
 
-        log.info("Deleting comment with id={}", commentId);
+        log.info("Удаление комментария с помощью id={}", commentId);
 
         likesRepository.deleteAllByCommentId(commentId);
         dislikeRepository.deleteAllByCommentId(commentId);
@@ -254,7 +254,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void commentExists(Long id) {
-        log.info("Checking that comment with id={} exists", id);
+        log.info("Проверка этого комментария с помощью id={} exists", id);
 
         if (!commentRepository.existsById(id)) {
             throw new NotFoundException("User", id);
@@ -263,11 +263,11 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentLike getLikeByCommentIdAndUserId(Long commentId, Long userId) {
         return likesRepository.getByCommentIdAndUserId(commentId, userId).orElseThrow(() ->
-                new NotFoundException("Like not found."));
+                new NotFoundException("лайк не найдет."));
     }
 
     private CommentDislike getDislikeByCommentIdAndUserId(Long commentId, Long userId) {
         return dislikeRepository.getByCommentIdAndUserId(commentId, userId).orElseThrow(() ->
-                new NotFoundException("Dislike not found."));
+                new NotFoundException("дизлайк не найден."));
     }
 }
