@@ -18,14 +18,14 @@ public class CommentControllerAdmin {
 
     @GetMapping("/admin/comments/{commentId}")
     public CommentDto getCommentById(@PathVariable Long commentId) {
-        log.info("GET at '/admin/comments/{}' to get comment with id={}", commentId, commentId);
+        log.info("GET '/admin/comments/{}' получает comment с id={}", commentId, commentId);
         return commentService.getCommentById(commentId);
     }
 
     @DeleteMapping("/admin/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByAdmin(@PathVariable Long commentId) {
-        log.info("DELETE at '/admin/comments/{}' to delete comment with id={}", commentId, commentId);
+        log.info("DELETE '/admin/comments/{}' удалить comment с id={}", commentId, commentId);
         commentService.deleteCommentByAdmin(commentId);
     }
 }

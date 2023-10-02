@@ -25,7 +25,7 @@ public class CommentControllerPrivate {
     public CommentDto createComment(@PathVariable Long userId,
                                     @PathVariable Long eventId,
                                     @Valid @RequestBody NewCommentDto newCommentDto) {
-        log.info("POST at '/users/{}/events/{}/comments' to create comment on event with id={}", userId, eventId, eventId);
+        log.info("POST '/users/{}/events/{}/comments'создать comment с event и с id={}", userId, eventId, eventId);
         return commentService.createComment(userId, eventId, newCommentDto);
     }
 
@@ -33,7 +33,7 @@ public class CommentControllerPrivate {
     @ResponseStatus(HttpStatus.CREATED)
     public void addLikeToComment(@PathVariable Long userId,
                                  @PathVariable Long commentId) {
-        log.info("POST at '/users/{}/comments/{}/like' to like comment with id={}", userId, commentId, commentId);
+        log.info("POST '/users/{}/comments/{}/like' понравившийся comment с id={}", userId, commentId, commentId);
         commentService.addLikeToComment(userId, commentId);
     }
 
@@ -41,16 +41,15 @@ public class CommentControllerPrivate {
     @ResponseStatus(HttpStatus.CREATED)
     public void addDislikeToComment(@PathVariable Long userId,
                                     @PathVariable Long commentId) {
-        log.info("POST at '/users/{}/comments/{}/dislike' to dislike comment with id={}", userId, commentId, commentId);
+        log.info("POST '/users/{}/comments/{}/dislike' dislike comment с id={}", userId, commentId, commentId);
         commentService.addDislikeToComment(userId, commentId);
     }
 
     @PatchMapping("/users/{userId}/comments/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
     public CommentDto updateCommentById(@PathVariable Long userId,
                                         @PathVariable Long commentId,
                                         @Valid @RequestBody UpdateCommentRequest updateCommentRequest) {
-        log.info("PATCH at '/users/{}/comments/{}' to update comment with id={}", userId, commentId, commentId);
+        log.info("PATCH '/users/{}/comments/{}' обновить comment с id={}", userId, commentId, commentId);
         return commentService.updateComment(userId, commentId, updateCommentRequest);
     }
 
@@ -58,7 +57,7 @@ public class CommentControllerPrivate {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByUser(@PathVariable Long userId,
                                     @PathVariable Long commentId) {
-        log.info("DELETE at '/users/{}/comments/{}' to delete comment with id={}", userId, commentId, commentId);
+        log.info("DELETE '/users/{}/comments/{}' удалить comment с id={}", userId, commentId, commentId);
         commentService.deleteCommentByUser(userId, commentId);
     }
 }

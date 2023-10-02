@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.comments.model.dto.CommentDto;
 import ru.practicum.comments.service.CommentService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -22,18 +21,16 @@ public class CommentControllerPublic {
     private CommentService commentService;
 
     @GetMapping("/events/{eventId}/comments")
-    @ResponseStatus(HttpStatus.OK)
     public List<CommentDto> getAllCommentsByEventId(@PathVariable Long eventId,
                                                     @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                     @Positive @RequestParam(defaultValue = "10") Integer size) {
-        log.info("GET at '/events/{}/comments' to get all comments by event with id={}", eventId, eventId);
+        log.info("GET '/events/{}/comments' получить все comments по event с id={}", eventId, eventId);
         return commentService.getAllCommentsByEventId(eventId, from, size);
     }
 
     @GetMapping("/events/{eventId}/comments/count")
-    @ResponseStatus(HttpStatus.OK)
     public Long getCommentsCountByEventId(@PathVariable Long eventId) {
-        log.info("GET at '/events/{eventId}/comments/count' to get comments count by event with id={}", eventId);
+        log.info("GET '/events/{eventId}/comments/count' получить кол-во comments по event с id={}", eventId);
         return commentService.getCommentsCountByEventId(eventId);
     }
 }
