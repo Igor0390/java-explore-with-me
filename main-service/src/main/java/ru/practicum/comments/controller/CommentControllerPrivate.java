@@ -16,11 +16,12 @@ import javax.validation.Valid;
 @Validated
 @RestController
 @AllArgsConstructor
+@RequestMapping("/users/{userId}")
 public class CommentControllerPrivate {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
-    @PostMapping("/users/{userId}/events/{eventId}/comments")
+    @PostMapping("/events/{eventId}/comments")
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto createComment(@PathVariable Long userId,
                                     @PathVariable Long eventId,
@@ -37,7 +38,7 @@ public class CommentControllerPrivate {
         commentService.addLikeToComment(userId, commentId);
     }
 
-    @PostMapping("/users/{userId}/comments/{commentId}/dislike")
+    @PostMapping("/comments/{commentId}/dislike")
     @ResponseStatus(HttpStatus.CREATED)
     public void addDislikeToComment(@PathVariable Long userId,
                                     @PathVariable Long commentId) {
@@ -45,7 +46,7 @@ public class CommentControllerPrivate {
         commentService.addDislikeToComment(userId, commentId);
     }
 
-    @PatchMapping("/users/{userId}/comments/{commentId}")
+    @PatchMapping("/comments/{commentId}")
     public CommentDto updateCommentById(@PathVariable Long userId,
                                         @PathVariable Long commentId,
                                         @Valid @RequestBody UpdateCommentRequest updateCommentRequest) {
@@ -53,7 +54,7 @@ public class CommentControllerPrivate {
         return commentService.updateComment(userId, commentId, updateCommentRequest);
     }
 
-    @DeleteMapping("/users/{userId}/comments/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByUser(@PathVariable Long userId,
                                     @PathVariable Long commentId) {

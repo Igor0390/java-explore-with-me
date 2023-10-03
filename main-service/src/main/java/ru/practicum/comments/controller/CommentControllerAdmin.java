@@ -12,17 +12,18 @@ import ru.practicum.comments.service.CommentService;
 @Validated
 @RestController
 @AllArgsConstructor
+@RequestMapping("/admin/comments/{commentId}")
 public class CommentControllerAdmin {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
-    @GetMapping("/admin/comments/{commentId}")
+    @GetMapping
     public CommentDto getCommentById(@PathVariable Long commentId) {
         log.info("GET '/admin/comments/{}' получает comment с id={}", commentId, commentId);
         return commentService.getCommentById(commentId);
     }
 
-    @DeleteMapping("/admin/comments/{commentId}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByAdmin(@PathVariable Long commentId) {
         log.info("DELETE '/admin/comments/{}' удалить comment с id={}", commentId, commentId);

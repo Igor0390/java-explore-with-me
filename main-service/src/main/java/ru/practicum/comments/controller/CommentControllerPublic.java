@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentControllerPublic {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping("/events/{eventId}/comments")
     public List<CommentDto> getAllCommentsByEventId(@PathVariable Long eventId,

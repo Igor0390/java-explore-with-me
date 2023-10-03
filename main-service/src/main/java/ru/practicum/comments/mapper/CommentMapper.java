@@ -26,8 +26,6 @@ public class CommentMapper {
                 .authorName(comment.getAuthor().getName())
                 .commentText(comment.getCommentText())
                 .createdOn(comment.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-//                .likesCount(comment.getLikes() == null ? 0 : comment.getLikes().size())
-//                .dislikesCount(comment.getDislikes() == null ? 0 : comment.getDislikes().size())
                 .build();
     }
 

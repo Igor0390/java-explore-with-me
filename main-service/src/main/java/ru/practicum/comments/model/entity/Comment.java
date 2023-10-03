@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Entity
-@ToString
+@ToString(exclude = {"author", "event"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "comments")
