@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ServerWebInputException;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestControllerAdvice
@@ -32,7 +32,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("IНеправильно составлен запрос")
+                .reason("Неправильно составлен запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -68,7 +68,7 @@ public class ErrorHandler {
                 .build();
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({ValidationRequestException.class})
     @ResponseStatus(BAD_REQUEST)
     public ApiError handleValidationException(ValidationRequestException e) {
         return ApiError.builder()
@@ -76,7 +76,21 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(BAD_REQUEST)
-                .reason("Неправильно составлен запрос")
+                .reason("Неправильно составлен запрос.")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    @ResponseStatus(BAD_REQUEST)
+    public ApiError handleConstraintViolationException(ConstraintViolationException e) {
+        return ApiError.builder()
+                .errors(Arrays.stream(e.getStackTrace())
+                        .map(StackTraceElement::toString)
+                        .collect(Collectors.toList()))
+                .status(BAD_REQUEST)
+                .reason("Неправильно составлен запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -91,7 +105,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(NOT_FOUND)
-                .reason("Object not found")
+                .reason("Объект не найден")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -106,7 +120,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(NOT_FOUND)
-                .reason("Нужный объект не найден")
+                .reason("Нужный объект не найден.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -122,7 +136,7 @@ public class ErrorHandler {
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(CONFLICT)
-                .reason("Условия для запрошенной операции не выполнены")
+                .reason("Для запрошенной операции условия не выполнены.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -136,7 +150,7 @@ public class ErrorHandler {
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
-                .message(e.getCause().getMessage())
+                .message(e.getMessage())
                 .reason(NestedExceptionUtils.getMostSpecificCause(e).getMessage())
                 .status(CONFLICT)
                 .timestamp(LocalDateTime.now())
@@ -144,16 +158,15 @@ public class ErrorHandler {
     }
 
     // 500
-    @ExceptionHandler({Throwable.class})
+    @ExceptionHandler({Exception.class})
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ApiError handleException(final Throwable e) {
-        log.debug(e.toString());
+    public ApiError handleException(final Exception e) {
         return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
                 .status(INTERNAL_SERVER_ERROR)
-                .reason("На сервере возникла непредвиденная ситуация, которая не позволила ему выполнить запрос")
+                .reason("На сервере возникла непредвиденная ситуация, которая не позволила ему выполнить запрос.")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
